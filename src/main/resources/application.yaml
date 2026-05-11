@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: factory-rfid-outbound-inspection
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/rfid_test?serverTimezone=Asia/Seoul&characterEncoding=UTF-8}
+    username: ${DB_USERNAME:rfid_user}
+    password: ${DB_PASSWORD:00000000}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+  jackson:
+    time-zone: Asia/Seoul
+
+inspection:
+  reader-name: ${INSPECTION_READER_NAME:NPC-생산공장}
