@@ -409,6 +409,7 @@ function buildViewModel(
     topMessage,
     bottomMessage,
     detailMessage,
+    failureSummary: state === "API_FAILED" ? buildFailureSummary(result) : null,
     errorMessage,
     canRetry: state === "API_FAILED",
   };
@@ -439,6 +440,24 @@ function shouldKeepLastActive(now: number, lastActiveAt: number | null, readWind
     return false;
   }
   return now - lastActiveAt <= readWindowSec * 1000;
+}
+
+function buildFailureSummary(result: InspectionResult): string | null {
+  const entries = Object.entries(result.countsByType)
+    .filter(([, count]) => (count ?? 0) > 0)
+    .sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0));
+
+  if (entries.length <= 1) {
+    return null;
+  }
+
+  const [mainType, mainCount] = entries[0];
+  const mixed = entries
+    .slice(1)
+    .map(([type, count]) => `${type} ${count}개`)
+    .join(", ");
+
+  return `주유형 ${mainType} ${mainCount}개 / 혼재 ${mixed}`;
 }
 
 function analyzeTags(tags: TagSummary[], config: InspectionConfig): InspectionResult {

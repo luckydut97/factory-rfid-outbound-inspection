@@ -9,11 +9,14 @@ export function InspectionDisplay(): JSX.Element {
     loading,
     saveConfig,
     retryTransmission,
-    simulateManualTags,
-    simulateScenario,
   } = useRFIDInspection();
 
-  const quantityDisplay = view.state === "READY" ? "- -" : String(view.result.totalCount);
+  const displayedCount =
+    view.state === "READY"
+      ? "- -"
+      : view.isConfirmed
+        ? String(view.result.representativeCount)
+        : String(view.result.totalCount);
   const typeDisplay = view.state === "READY" ? "- -" : view.result.representativeType;
   const showReadyCard = view.state === "READY";
   const isPassState = view.state === "API_SENT" || view.state === "EXIT_WAIT";
@@ -38,7 +41,7 @@ export function InspectionDisplay(): JSX.Element {
                       isPassState ? "count-value--pass" : isFailState ? "count-value--fail" : ""
                     }`}
                   >
-                    {quantityDisplay}
+                    {displayedCount}
                   </span>
                   <span className="count-unit">개</span>
                 </div>
@@ -63,6 +66,7 @@ export function InspectionDisplay(): JSX.Element {
               ) : isFailState ? (
                 <div className="fail-summary">
                   <div className="fail-mark">X</div>
+                  {view.failureSummary ? <p className="fail-summary-line">{view.failureSummary}</p> : null}
                   <p className="fail-detail">{view.detailMessage}</p>
                 </div>
               ) : !view.isConfirmed ? (
@@ -87,12 +91,7 @@ export function InspectionDisplay(): JSX.Element {
             <span>재시도</span>
           </button>
         ) : null}
-        <SettingsSheet
-          config={view.config}
-          onSaveConfig={saveConfig}
-          onScenario={simulateScenario}
-          onManualTags={simulateManualTags}
-        />
+        <SettingsSheet config={view.config} onSaveConfig={saveConfig} />
       </div>
 
       {loading ? <div className="loading-overlay">검수 화면을 불러오는 중입니다...</div> : null}

@@ -1,21 +1,16 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Settings, X } from "lucide-react";
 import { AdminSettings } from "./AdminSettings";
-import { SimulationPanel } from "./SimulationPanel";
 import type { InspectionConfig } from "../types/inspection";
 
 interface SettingsSheetProps {
   config: InspectionConfig;
   onSaveConfig: (config: InspectionConfig) => Promise<void>;
-  onScenario: (scenario: string) => Promise<void>;
-  onManualTags: (tags: string[], antName: string) => Promise<void>;
 }
 
 export function SettingsSheet({
   config,
   onSaveConfig,
-  onScenario,
-  onManualTags,
 }: SettingsSheetProps): JSX.Element {
   return (
     <Dialog.Root>
@@ -45,7 +40,6 @@ export function SettingsSheet({
 
           <div className="sheet-body">
             <AdminSettings config={config} onSave={onSaveConfig} />
-            <SimulationPanel onScenario={onScenario} onManualTags={onManualTags} />
           </div>
         </Dialog.Content>
       </Dialog.Portal>

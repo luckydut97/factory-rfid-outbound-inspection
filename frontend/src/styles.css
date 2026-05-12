@@ -214,6 +214,13 @@ textarea {
   color: #7f1d1d;
 }
 
+.fail-summary-line {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #991b1b;
+}
+
 .loading-state__row {
   display: flex;
   align-items: center;

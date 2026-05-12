@@ -24,8 +24,8 @@ export function AdminSettings({ config, onSave }: AdminSettingsProps): JSX.Eleme
     setDraft({
       ...draft,
       baseCount: 16,
-      readWindowSec: 3,
-      stableSec: 3,
+      readWindowSec: 5,
+      stableSec: 5,
       exitWaitSec: 10,
       resetSec: 3,
       apiTimeoutSec: 5,
@@ -49,14 +49,14 @@ export function AdminSettings({ config, onSave }: AdminSettingsProps): JSX.Eleme
           onChange={(value) => updateField("baseCount", value)}
         />
         <ConfigField
-          label="인식 윈도우"
-          hint="최근 몇 초 데이터를 묶을지"
+          label="인식 대기 시간"
+          hint="태그가 들어온 뒤 판정을 시작하기 전까지 묶어볼 시간"
           value={String(draft.readWindowSec)}
           onChange={(value) => updateField("readWindowSec", value)}
         />
         <ConfigField
           label="확정 유지 시간"
-          hint="대표 수량을 몇 초 유지할지"
+          hint="마지막 태그 변화 후 결과가 몇 초 더 유지되어야 판정할지"
           value={String(draft.stableSec)}
           onChange={(value) => updateField("stableSec", value)}
         />
@@ -66,29 +66,7 @@ export function AdminSettings({ config, onSave }: AdminSettingsProps): JSX.Eleme
           value={String(draft.exitWaitSec)}
           onChange={(value) => updateField("exitWaitSec", value)}
         />
-        <ConfigField
-          label="초기화 시간"
-          hint="0개 상태를 몇 초 유지할지"
-          value={String(draft.resetSec)}
-          onChange={(value) => updateField("resetSec", value)}
-        />
-        <ConfigField
-          label="API 타임아웃"
-          hint="전산 호출 제한 시간"
-          value={String(draft.apiTimeoutSec)}
-          onChange={(value) => updateField("apiTimeoutSec", value)}
-        />
       </div>
-
-      <label className="config-field">
-        <span className="config-field__label">전산 API URL</span>
-        <input
-          className="text-input"
-          type="text"
-          value={draft.apiUrl ?? ""}
-          onChange={(event) => updateField("apiUrl", event.target.value)}
-        />
-      </label>
 
       <button className="primary-button" type="button" onClick={() => void onSave(draft)}>
         설정 저장

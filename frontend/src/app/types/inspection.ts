@@ -64,6 +64,7 @@ export interface InspectionViewModel {
   topMessage: string | null;
   bottomMessage: string;
   detailMessage: string | null;
+  failureSummary: string | null;
   errorMessage: string | null;
   canRetry: boolean;
 }
