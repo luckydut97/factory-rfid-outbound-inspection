@@ -17,7 +17,7 @@ export function SettingsSheet({
       <Dialog.Trigger asChild>
         <button className="fab fab--solid" type="button">
           <Settings aria-hidden="true" />
-          <span>설정 및 테스트</span>
+          <span>환경설정</span>
         </button>
       </Dialog.Trigger>
 
@@ -26,9 +26,9 @@ export function SettingsSheet({
         <Dialog.Content className="sheet-content">
           <div className="sheet-header">
             <div>
-              <Dialog.Title className="sheet-title">설정 및 테스트</Dialog.Title>
+              <Dialog.Title className="sheet-title">환경설정</Dialog.Title>
               <Dialog.Description className="sheet-description">
-                현장 기준값과 RFID 시뮬레이션을 한 곳에서 관리합니다.
+                현장에 맞게 시간을 설정하고 적용 버튼을 누르세요.
               </Dialog.Description>
             </div>
             <Dialog.Close asChild>

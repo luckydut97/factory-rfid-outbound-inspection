@@ -12,7 +12,7 @@ import type {
 const POLL_MS = 1000;
 
 const defaultConfig: InspectionConfig = {
-  readerName: "NPC-생산공장",
+  readerName: "NPC-청원공장",
   baseCount: 16,
   readWindowSec: 5,
   stableSec: 5,
@@ -70,10 +70,11 @@ export function useRFIDInspection(): {
       }
 
       const fetchedConfig = (await configRes.json()) as InspectionConfig;
+      const normalizedWaitSec = fetchedConfig.readWindowSec;
       const nextConfig: InspectionConfig = {
         ...fetchedConfig,
-        readWindowSec: Math.max(fetchedConfig.readWindowSec, 5),
-        stableSec: Math.max(fetchedConfig.stableSec, 5),
+        readWindowSec: normalizedWaitSec,
+        stableSec: normalizedWaitSec,
       };
       const nextCurrent = (await currentRes.json()) as InspectionCurrentResponse;
       setConfig(nextConfig);
@@ -183,7 +184,7 @@ export function useRFIDInspection(): {
         nextState = "API_FAILED";
         evaluatedRef.current = true;
         exitStartRef.current = now;
-      } else if (stableElapsed >= config.stableSec && !evaluatedRef.current) {
+      } else if (stableElapsed >= config.readWindowSec && !evaluatedRef.current) {
         finalResultRef.current = analyzed;
         nextState = isInspectionPassed(analyzed, config.baseCount) ? "API_SENT" : "API_FAILED";
         evaluatedRef.current = true;
@@ -380,7 +381,7 @@ function buildViewModel(
       break;
     case "STABLE_CHECK":
       bottomMessage = "인식 수량 확정 중";
-      detailMessage = `${Math.max(config.stableSec - stateElapsedSec, 0)}초 후 판정`;
+      detailMessage = `${Math.max(config.readWindowSec - stateElapsedSec, 0)}초 후 판정`;
       break;
     case "READY":
       bottomMessage = "검수 대기 중";

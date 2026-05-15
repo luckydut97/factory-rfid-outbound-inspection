@@ -17,4 +17,4 @@ spring:
     time-zone: Asia/Seoul
 
 inspection:
-  reader-name: ${INSPECTION_READER_NAME:NPC-생산공장}
+  reader-name: ${INSPECTION_READER_NAME:NPC-청원공장}
